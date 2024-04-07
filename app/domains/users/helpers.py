@@ -20,4 +20,4 @@ def get_user_by_id(
             detail=f"User with ID={user_id} not found."
         )
 
-    return User
+    return user
