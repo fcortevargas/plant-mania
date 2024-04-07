@@ -1,18 +1,18 @@
-from http import HTTPStatus
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database.models.user import User
 from app.dependencies import get_session
+from app.domains.users.helpers import get_user_by_id
 from app.schemas.user import UserCreate, UserOut
 
 user_router = APIRouter(prefix="/users", tags=["users"])
 
 
 @user_router.get("", response_model=List[UserOut])
-def get_all_users(db_session: Session = Depends(get_session)):
+def get_all_users(db_session: Session = Depends(get_session)) -> List[UserOut]:
     users = db_session.query(User).all()
     return users
 
@@ -21,7 +21,7 @@ def get_all_users(db_session: Session = Depends(get_session)):
 def create_user(
         user_create: UserCreate,
         db_session: Session = Depends(get_session)
-):
+) -> UserOut:
     new_user = User(**user_create.model_dump())
 
     db_session.add(new_user)
@@ -35,30 +35,16 @@ def create_user(
 def get_user(
         user_id: int,
         db_session: Session = Depends(get_session)
-):
-    user = db_session.query(User).filter(User.id == user_id).one_or_none()
-
-    if not user:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail=f"User with ID={user_id} not found."
-        )
-
-    return user
+) -> UserOut:
+    return get_user_by_id(user_id, db_session)
 
 
 @user_router.delete("/{user_id}", response_model=UserOut)
 def delete_user(
         user_id: int,
         db_session: Session = Depends(get_session)
-):
-    user = db_session.query(User).filter(User.id == user_id).one_or_none()
-
-    if not user:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail=f"User with ID={user_id} not found."
-        )
+) -> UserOut:
+    user = get_user_by_id(user_id, db_session)
 
     db_session.delete(user)
     db_session.commit()
