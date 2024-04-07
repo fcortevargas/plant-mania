@@ -19,5 +19,6 @@ class User(Base):
     updated_timestamp = sa.Column(
         sa.DateTime,
         nullable=False,
-        default=sa.func.now()
+        default=sa.func.now(),
+        onupdate=sa.func.now(),
     )
