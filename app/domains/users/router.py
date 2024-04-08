@@ -25,20 +25,6 @@ def create_user(
     return new_user
 
 
-@user_router.get("", response_model=List[UserOut])
-def get_all_users(db_session: Session = Depends(get_session)) -> List[UserOut]:
-    users = db_session.query(User).all()
-    return users
-
-
-@user_router.get("/{user_id}", response_model=UserOut)
-def get_user(
-        user_id: int,
-        db_session: Session = Depends(get_session)
-) -> UserOut:
-    return get_user_by_id(user_id, db_session)
-
-
 @user_router.patch("/{user_id}")
 def update_user(
         user_id: int,
@@ -54,6 +40,20 @@ def update_user(
     db_session.commit()
 
     return user
+
+
+@user_router.get("", response_model=List[UserOut])
+def get_all_users(db_session: Session = Depends(get_session)) -> List[UserOut]:
+    users = db_session.query(User).all()
+    return users
+
+
+@user_router.get("/{user_id}", response_model=UserOut)
+def get_user(
+        user_id: int,
+        db_session: Session = Depends(get_session)
+) -> UserOut:
+    return get_user_by_id(user_id, db_session)
 
 
 @user_router.delete("/{user_id}", response_model=UserOut)

@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 
 from app.database.models.user import User
 from app.dependencies import get_session
-from app.schemas.user import UserOut
 
 
 def get_user_by_id(
