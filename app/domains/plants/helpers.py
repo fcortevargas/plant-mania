@@ -11,12 +11,16 @@ def get_plant_by_id(
         plant_id: int,
         db_session: Session = Depends(get_session)
 ) -> Plant:
-    user = db_session.query(Plant).filter(Plant.id == plant_id).one_or_none()
+    plant = db_session.query(Plant).filter(Plant.id == plant_id).one_or_none()
 
-    if not user:
+    raise_not_found_error(plant, f"Plant with ID={plant_id} not found.")
+
+    return plant
+
+
+def raise_not_found_error(query, message):
+    if not query:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail=f"Plant with ID={plant_id} not found."
+            detail=message
         )
-
-    return user

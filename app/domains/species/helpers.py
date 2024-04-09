@@ -11,12 +11,16 @@ def get_species_by_id(
         species_id: int,
         db_session: Session = Depends(get_session)
 ) -> Species:
-    user = db_session.query(Species).filter(Species.id == species_id).one_or_none()
+    species = db_session.query(Species).filter(Species.id == species_id).one_or_none()
 
-    if not user:
+    raise_not_found_error(species, f"Species with ID={species_id} not found.")
+
+    return species
+
+
+def raise_not_found_error(query, message):
+    if not query:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail=f"Species with ID={species_id} not found."
+            detail=message
         )
-
-    return user

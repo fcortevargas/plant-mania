@@ -13,10 +13,14 @@ def get_user_by_id(
 ) -> User:
     user = db_session.query(User).filter(User.id == user_id).one_or_none()
 
-    if not user:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail=f"User with ID={user_id} not found."
-        )
+    raise_not_found_error(user, f"User with ID={user_id} not found.")
 
     return user
+
+
+def raise_not_found_error(query, message):
+    if not query:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail=message
+        )
