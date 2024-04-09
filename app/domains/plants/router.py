@@ -28,6 +28,20 @@ def create_plant(
     return new_plant
 
 
+@plant_router.get("", response_model=List[PlantOut])
+def get_all_plants(db_session: Session = Depends(get_session)) -> List[PlantOut]:
+    plants = db_session.query(Plant).all()
+    return plants
+
+
+@plant_router.get("/{plant_id}", response_model=PlantOut)
+def get_plant(
+        plant_id: int,
+        db_session: Session = Depends(get_session)
+) -> PlantOut:
+    return get_plant_by_id(plant_id, db_session)
+
+
 @plant_router.patch("/{plant_id}")
 def update_user(
         plant_id: int,
@@ -43,20 +57,6 @@ def update_user(
     db_session.commit()
 
     return plant
-
-
-@plant_router.get("", response_model=List[PlantOut])
-def get_all_plants(db_session: Session = Depends(get_session)) -> List[PlantOut]:
-    plants = db_session.query(Plant).all()
-    return plants
-
-
-@plant_router.get("/{plant_id}", response_model=PlantOut)
-def get_plant(
-        plant_id: int,
-        db_session: Session = Depends(get_session)
-) -> PlantOut:
-    return get_plant_by_id(plant_id, db_session)
 
 
 @plant_router.delete("/{plant_id}", response_model=PlantOut)
