@@ -4,8 +4,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database.models.plant import Plant
+from app.database.models.species import Species
 from app.dependencies import get_session
-from app.domains.plants.helpers import get_plant_by_id
+from app.domains.plants.helpers import get_plant_by_id, raise_not_found_error
 from app.domains.species.helpers import get_species_by_id
 from app.schemas.plant import PlantCreate, PlantOut, PlantUpdate
 
@@ -40,6 +41,20 @@ def get_plant(
         db_session: Session = Depends(get_session)
 ) -> PlantOut:
     return get_plant_by_id(plant_id, db_session)
+
+
+@plant_router.get("/species/{species_name}", response_model=List[PlantOut])
+def get_all_plant_by_species(
+        species_name: str,
+        db_session: Session = Depends(get_session)
+) -> List[PlantOut]:
+    species = db_session.query(Species).filter(Species.name == species_name).one_or_none()
+
+    raise_not_found_error(species, f"Species with NAME={species_name} not found.")
+
+    plants = db_session.query(Plant).filter(Plant.species_id == species.id).all()
+
+    return plants
 
 
 @plant_router.patch("/{plant_id}")
