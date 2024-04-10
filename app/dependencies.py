@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-STORAGE_URL = "postgresql://plants:pass@localhost/plants"
+STORAGE_URL = "postgresql://plants:pass@plants-database/plants"
 
 
 def get_session():

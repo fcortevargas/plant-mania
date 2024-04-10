@@ -3,9 +3,23 @@ version: "3.10"
 services:
   plants-database:
     image: postgres:14.2-alpine
+    platform: linux/amd64
     environment:
       - POSTGRES_DB=plants
       - POSTGRES_USER=plants
       - POSTGRES_PASSWORD=pass
     ports:
       - "5432:5432"
+
+  plants-api:
+    build: .
+    platform: linux/amd64
+    volumes:
+      - .:/app
+    command: uvicorn app.api:app --host 0.0.0.0 --reload
+    ports:
+      - "8000:8000"
+    depends_on:
+      - plants-database
+    environment:
+      - DATABASE_URL=postgresql://plants:pass@plants-database/plants
