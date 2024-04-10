@@ -9,5 +9,5 @@ class Species(Base):
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True, nullable=False, index=True)
     name = sa.Column(sa.String, nullable=False, unique=True)
     country = sa.Column(sa.String, nullable=True)
-    water_frequency = sa.Column(sa.Integer, nullable=False)
-    lighting = sa.Column(sa.String, nullable=False)
+    watering_interval = sa.Column(sa.Integer, nullable=False)
+    lighting_conditions = sa.Column(sa.String, nullable=False)

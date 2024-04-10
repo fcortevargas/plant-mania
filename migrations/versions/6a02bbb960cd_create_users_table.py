@@ -23,8 +23,8 @@ def upgrade() -> None:
         sa.Column("password", sa.String, nullable=False),
         sa.Column("first_name", sa.String, nullable=False),
         sa.Column("last_name", sa.String, nullable=False),
-        sa.Column("created_timestamp", sa.DateTime, nullable=False),
-        sa.Column("updated_timestamp", sa.DateTime, nullable=False),
+        sa.Column("created_timestamp", sa.DateTime, nullable=False, default=sa.func.now()),
+        sa.Column("updated_timestamp", sa.DateTime, nullable=False, default=sa.func.now()),
     )
 
 

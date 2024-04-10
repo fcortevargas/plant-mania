@@ -6,8 +6,8 @@ from pydantic import BaseModel
 class SpeciesBase(BaseModel):
     name: str
     country: Optional[str]
-    water_frequency: int
-    lighting: str
+    watering_interval: int
+    lighting_conditions: str
 
 
 class SpeciesCreate(SpeciesBase):
@@ -17,8 +17,8 @@ class SpeciesCreate(SpeciesBase):
 class SpeciesUpdate(SpeciesBase):
     name: Optional[str] = None
     country: Optional[str] = None
-    water_frequency: Optional[int] = None
-    lighting: Optional[str] = None
+    watering_interval: Optional[int] = None
+    lighting_conditions: Optional[str] = None
 
 
 class SpeciesOut(SpeciesBase):

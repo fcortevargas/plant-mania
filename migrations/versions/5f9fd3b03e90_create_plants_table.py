@@ -21,15 +21,15 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer, primary_key=True, autoincrement=True, nullable=False, index=True),
         sa.Column("name", sa.String, nullable=False, unique=True),
         sa.Column("country", sa.String, nullable=True),
-        sa.Column("water_frequency", sa.Integer, nullable=False),
-        sa.Column("lighting", sa.String, nullable=False)
+        sa.Column("watering_interval", sa.Integer, nullable=False),
+        sa.Column("lighting_conditions", sa.String, nullable=False)
     )
 
     op.create_table(
         "plants",
         sa.Column("id", sa.Integer, primary_key=True, autoincrement=True, nullable=False, index=True),
-        sa.Column("name", sa.String, nullable=True, unique=True),
-        sa.Column("location", sa.String, nullable=False),
+        sa.Column("name", sa.String, nullable=True),
+        sa.Column("location_in_house", sa.String, nullable=False),
         sa.Column("species_id", sa.Integer, sa.ForeignKey("species.id"), nullable=False)
     )
 
