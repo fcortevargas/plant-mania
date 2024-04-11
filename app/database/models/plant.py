@@ -13,3 +13,6 @@ class Plant(Base):
     location_in_house = sa.Column(sa.String, nullable=False)
     species_id = sa.Column(sa.Integer, sa.ForeignKey("species.id"), nullable=False)
     species = relationship(Species, backref=backref("plants", cascade="all, delete-orphan"))
+    user_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
+    user = relationship(Species, backref=backref("users", cascade="all, delete-orphan"))
+    date_last_watered = sa.Column(sa.Date, nullable=True)

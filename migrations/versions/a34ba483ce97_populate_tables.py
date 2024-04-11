@@ -6,7 +6,7 @@ Create Date: 2024-04-10 23:21:46.608591
 
 """
 
-import datetime
+from datetime import date, datetime
 
 import sqlalchemy as sa
 from alembic import op
@@ -19,6 +19,26 @@ depends_on = None
 
 
 def upgrade() -> None:
+    users_table = sa.table(
+        "users",
+        sa.Column("username", sa.String),
+        sa.Column("first_name", sa.String),
+        sa.Column("last_name", sa.String),
+        sa.Column("password", sa.String),
+        sa.Column("created_timestamp", sa.DateTime),
+        sa.Column("updated_timestamp", sa.DateTime)
+    )
+
+    op.bulk_insert(
+        users_table,
+        [
+            {"username": "fcortevargas", "first_name": "Fernando", "last_name": "Corte Vargas", "password": "pass",
+             "created_timestamp": datetime.utcnow(), "updated_timestamp": datetime.utcnow()},
+            {"username": "jpinhoferreira", "first_name": "João", "last_name": "Pinho Ferreira", "password": "pass",
+             "created_timestamp": datetime.utcnow(), "updated_timestamp": datetime.utcnow()}
+        ]
+    )
+
     species_table = sa.table(
         "species",
         sa.Column("name", sa.String),
@@ -69,49 +89,48 @@ def upgrade() -> None:
         "plants",
         sa.Column("name", sa.String),
         sa.Column("location_in_house", sa.String),
-        sa.Column("species_id", sa.Integer)
+        sa.Column("species_id", sa.Integer),
+        sa.Column("date_last_watered", sa.Date),
+        sa.Column("user_id", sa.Integer)
     )
 
     op.bulk_insert(
         plants_table,
         [
-            {"name": "Monstera", "location_in_house": "Living Room", "species_id": 1},
-            {"name": "Parlour Palm", "location_in_house": "Living Room", "species_id": 2},
-            {"name": "Ctenanthe", "location_in_house": "Living Room", "species_id": 3},
-            {"name": "Ctenanthe", "location_in_house": "Office", "species_id": 3},
-            {"name": "Rattlesnake Plant", "location_in_house": "Living Room", "species_id": 4},
-            {"name": "Peace Lily", "location_in_house": "Living Room", "species_id": 5},
-            {"name": "Golden Barrel Cactus", "location_in_house": "Living Room", "species_id": 6},
-            {"name": "Prayer Plant", "location_in_house": "Living Room", "species_id": 7},
-            {"name": "Pineapple", "location_in_house": "Living Room", "species_id": 8},
-            {"name": "Elephant's Foot", "location_in_house": "Living Room", "species_id": 9},
-            {"name": "Jade Necklace", "location_in_house": "Living Room", "species_id": 10},
-            {"name": "Yucca", "location_in_house": "Living Room", "species_id": 11},
-            {"name": "Lipstick Plant", "location_in_house": "Living Room", "species_id": 12},
-            {"name": "Polka Dot Plant", "location_in_house": "Living Room", "species_id": 13},
-            {"name": "Eternity Plant", "location_in_house": "Living Room", "species_id": 14},
-            {"name": "Snake Plant", "location_in_house": "Living Room", "species_id": 15},
-            {"name": "Avocado", "location_in_house": "Living Room", "species_id": 16}
-        ]
-    )
-
-    users_table = sa.table(
-        "users",
-        sa.Column("username", sa.String),
-        sa.Column("first_name", sa.String),
-        sa.Column("last_name", sa.String),
-        sa.Column("password", sa.String),
-        sa.Column("created_timestamp", sa.DateTime),
-        sa.Column("updated_timestamp", sa.DateTime)
-    )
-
-    op.bulk_insert(
-        users_table,
-        [
-            {"username": "fcortevargas", "first_name": "Fernando", "last_name": "Corte Vargas", "password": "pass",
-             "created_timestamp": datetime.datetime.utcnow(), "updated_timestamp": datetime.datetime.utcnow()},
-            {"username": "jpinhoferreira", "first_name": "João", "last_name": "Pinho Ferreira", "password": "pass",
-             "created_timestamp": datetime.datetime.utcnow(), "updated_timestamp": datetime.datetime.utcnow()}
+            {"name": "Monstera", "location_in_house": "Living Room", "species_id": 1,
+             "date_last_watered": date(2024, 4, 3), "user_id": 1},
+            {"name": "Parlour Palm", "location_in_house": "Living Room", "species_id": 2,
+             "date_last_watered": date(2024, 4, 3), "user_id": 1},
+            {"name": "Ctenanthe", "location_in_house": "Living Room", "species_id": 3,
+             "date_last_watered": date(2024, 4, 3), "user_id": 2},
+            {"name": "Ctenanthe", "location_in_house": "Office", "species_id": 3,
+             "date_last_watered": date(2024, 4, 3), "user_id": 1},
+            {"name": "Rattlesnake Plant", "location_in_house": "Living Room", "species_id": 4,
+             "date_last_watered": date(2024, 4, 3), "user_id": 2},
+            {"name": "Peace Lily", "location_in_house": "Living Room", "species_id": 5,
+             "date_last_watered": date(2024, 4, 3), "user_id": 2},
+            {"name": "Golden Barrel Cactus", "location_in_house": "Living Room", "species_id": 6,
+             "date_last_watered": date(2024, 2, 1), "user_id": 2},
+            {"name": "Prayer Plant", "location_in_house": "Living Room", "species_id": 7,
+             "date_last_watered": date(2024, 4, 3), "user_id": 1},
+            {"name": "Pineapple", "location_in_house": "Living Room", "species_id": 8,
+             "date_last_watered": date(2024, 3, 28), "user_id": 2},
+            {"name": "Elephant's Foot", "location_in_house": "Living Room", "species_id": 9,
+             "date_last_watered": date(2024, 3, 28), "user_id": 2},
+            {"name": "Jade Necklace", "location_in_house": "Living Room", "species_id": 10,
+             "date_last_watered": date(2024, 4, 3), "user_id": 1},
+            {"name": "Yucca", "location_in_house": "Living Room", "species_id": 11,
+             "date_last_watered": date(2024, 3, 28), "user_id": 1},
+            {"name": "Lipstick Plant", "location_in_house": "Living Room", "species_id": 12,
+             "date_last_watered": date(2024, 4, 8), "user_id": 1},
+            {"name": "Polka Dot Plant", "location_in_house": "Living Room", "species_id": 13,
+             "date_last_watered": date(2024, 4, 8), "user_id": 1},
+            {"name": "Eternity Plant", "location_in_house": "Living Room", "species_id": 14,
+             "date_last_watered": date(2024, 4, 3), "user_id": 2},
+            {"name": "Snake Plant", "location_in_house": "Living Room", "species_id": 15,
+             "date_last_watered": date(2024, 4, 3), "user_id": 2},
+            {"name": "Avocado", "location_in_house": "Living Room", "species_id": 16,
+             "date_last_watered": date(2024, 4, 8), "user_id": 1},
         ]
     )
 

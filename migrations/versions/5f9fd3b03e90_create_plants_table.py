@@ -30,7 +30,9 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer, primary_key=True, autoincrement=True, nullable=False, index=True),
         sa.Column("name", sa.String, nullable=True),
         sa.Column("location_in_house", sa.String, nullable=False),
-        sa.Column("species_id", sa.Integer, sa.ForeignKey("species.id"), nullable=False)
+        sa.Column("species_id", sa.Integer, sa.ForeignKey("species.id"), nullable=False),
+        sa.Column("date_last_watered", sa.Date, nullable=True),
+        sa.Column("user_id", sa.Integer, sa.ForeignKey("users.id"), nullable=False)
     )
 
 
