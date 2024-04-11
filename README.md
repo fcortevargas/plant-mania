@@ -54,3 +54,7 @@ To see the documentation of the FastAPI endpoints:
 ```http
   http://localhost:8000/docs
 ```
+
+## ER Diagram
+
+![ER Diagram](https://github.com/fcortevargas/plant-mania/blob/main/ER.png)
