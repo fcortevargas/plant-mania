@@ -1,10 +1,9 @@
-from http import HTTPStatus
-
-from fastapi import Depends, HTTPException
+from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from app.database.models.plant import Plant
 from app.dependencies import get_session
+from app.domains.helpers import raise_not_found_error
 
 
 def get_plant_by_id(
@@ -16,11 +15,3 @@ def get_plant_by_id(
     raise_not_found_error(plant, f"Plant with ID={plant_id} not found.")
 
     return plant
-
-
-def raise_not_found_error(query, message):
-    if not query:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail=message
-        )
