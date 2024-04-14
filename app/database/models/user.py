@@ -11,14 +11,6 @@ class User(Base):
     password = sa.Column(sa.String, nullable=False)
     first_name = sa.Column(sa.String, nullable=False)
     last_name = sa.Column(sa.String, nullable=False)
-    created_timestamp = sa.Column(
-        sa.DateTime,
-        nullable=False,
-        default=sa.func.now()
-    )
-    updated_timestamp = sa.Column(
-        sa.DateTime,
-        nullable=False,
-        default=sa.func.now(),
-        onupdate=sa.func.now(),
-    )
+    birth_date = sa.Column(sa.Date, nullable=False)
+    created_timestamp = sa.Column(sa.DateTime, nullable=False, server_default=sa.func.now())
+    updated_timestamp = sa.Column(sa.DateTime, nullable=False, server_default=sa.func.now())

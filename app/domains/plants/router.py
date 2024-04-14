@@ -8,7 +8,9 @@ from sqlalchemy.orm import Session
 from app.database.models.plant import Plant
 from app.database.models.species import Species
 from app.dependencies import get_session
-from app.domains.plants.helpers import get_plant_by_id, raise_not_found_error
+from app.domains.helpers import raise_not_found_error
+from app.domains.plants.helpers import get_plant_by_id
+from app.domains.rooms.helpers import get_room_by_id
 from app.domains.species.helpers import get_species_by_id
 from app.schemas.plant import PlantCreate, PlantOut, PlantUpdate
 
@@ -21,6 +23,7 @@ def create_plant(
         db_session: Session = Depends(get_session)
 ) -> PlantOut:
     get_species_by_id(plant_create.species_id, db_session)
+    get_room_by_id(plant_create.room_id, db_session)
 
     new_plant = Plant(**plant_create.model_dump())
 

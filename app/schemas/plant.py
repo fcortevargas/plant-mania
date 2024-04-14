@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from pydantic import BaseModel
@@ -6,23 +6,23 @@ from pydantic import BaseModel
 
 class PlantBase(BaseModel):
     name: str
-    location_in_house: str
-    species_id: int
-    user_id: int
+    room_id: int
+    date_last_watered: Optional[date] = None
+    date_last_repotted: Optional[date] = None
+    date_last_fertilized: Optional[date] = None
 
 
 class PlantCreate(PlantBase):
-    pass
+    species_id: int
 
 
 class PlantUpdate(PlantBase):
     name: Optional[str] = None
-    location_in_house: Optional[str] = None
-    species_id: Optional[int] = None
-    date_last_watered: Optional[date] = None
-    user_id: Optional[int] = None
+    room_id: Optional[int] = None
 
 
 class PlantOut(PlantBase):
     id: int
-    date_last_watered: Optional[date] = None
+    species_id: int
+    created_timestamp: datetime
+    updated_timestamp: datetime

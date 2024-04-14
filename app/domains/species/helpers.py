@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from app.database.models.plant import Species
+from app.database.models.species import Species
 from app.dependencies import get_session
 from app.domains.helpers import raise_not_found_error
 
