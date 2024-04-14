@@ -18,8 +18,8 @@ Go to the project directory
 
 ## Containerization
 
-The database and the backend are containerized using Docker to simplify the development and to ensure
-that the application runs consistently across different environments.
+The database and the backend are containerized using Docker to simplify the development and to ensure that the
+application runs consistently across different environments.
 
 To run the Docker containers for the database and the backend:
 
