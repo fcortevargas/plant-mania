@@ -19,3 +19,5 @@ class RoomUpdate(RoomBase):
 
 class RoomOut(RoomBase):
     id: int
+    home_id: int
+    floor_plan: Optional[bytes]
